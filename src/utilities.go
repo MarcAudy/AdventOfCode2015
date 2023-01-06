@@ -8,6 +8,11 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+type point struct {
+	x int
+	y int
+}
+
 func getInput(fileName string) []string {
 	readFile, err := os.Open(fileName)
 
