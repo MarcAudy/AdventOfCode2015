@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"golang.org/x/exp/constraints"
+	"golang.org/x/exp/maps"
 )
 
 type point struct {
@@ -62,4 +63,10 @@ func MaxOf[T constraints.Ordered](vars ...T) T {
 func GetMD5Hash(text string) string {
 	hash := md5.Sum([]byte(text))
 	return hex.EncodeToString(hash[:])
+}
+
+func CopyMap[T ~map[K]V, K comparable, V any](srcMap T) T {
+	newMap := make(T)
+	maps.Copy(newMap, srcMap)
+	return newMap
 }
