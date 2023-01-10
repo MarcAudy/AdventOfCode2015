@@ -70,3 +70,10 @@ func CopyMap[T ~map[K]V, K comparable, V any](srcMap T) T {
 	maps.Copy(newMap, srcMap)
 	return newMap
 }
+
+func Pop[T any](arr *[]T) T {
+	arrLen := len(*arr)
+	ret := (*arr)[arrLen-1]
+	*arr = (*arr)[:arrLen-1]
+	return ret
+}
