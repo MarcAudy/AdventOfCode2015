@@ -6,6 +6,9 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
+	"sort"
+
+	"github.com/barkimedes/go-deepcopy"
 
 	"golang.org/x/exp/constraints"
 	"golang.org/x/exp/maps"
@@ -65,6 +68,10 @@ func GetMD5Hash(text string) string {
 	return hex.EncodeToString(hash[:])
 }
 
+func DeepCopy[T any](srcThing T) T {
+	return deepcopy.MustAnything(srcThing).(T)
+}
+
 func CopyMap[T ~map[K]V, K comparable, V any](srcMap T) T {
 	newMap := make(T)
 	maps.Copy(newMap, srcMap)
@@ -76,4 +83,11 @@ func Pop[T any](arr *[]T) T {
 	ret := (*arr)[arrLen-1]
 	*arr = (*arr)[:arrLen-1]
 	return ret
+}
+
+func InsertSorted[T any](val T, arr *[]T, less func(a *T, b *T) bool) {
+	index := sort.Search(len(*arr), func(i int) bool { return less(&val, &(*arr)[i]) })
+	*arr = append(*arr, val)
+	copy((*arr)[index+1:], (*arr)[index:])
+	(*arr)[index] = val
 }
