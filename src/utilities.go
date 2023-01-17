@@ -63,6 +63,16 @@ func MaxOf[T constraints.Ordered](vars ...T) T {
 	return max
 }
 
+func SumOf[T constraints.Ordered](vars ...T) T {
+	var sum T
+
+	for _, i := range vars {
+		sum += i
+	}
+
+	return sum
+}
+
 func GetMD5Hash(text string) string {
 	hash := md5.Sum([]byte(text))
 	return hex.EncodeToString(hash[:])
